@@ -1,20 +1,28 @@
 const express = require("express");
+var cors = require("cors");
 const bodyParser = require("body-parser");
+const crypto = require("crypto");
 
 const app = express();
 app.use(bodyParser.json({ extended: true }));
 
-const port = 3000;
+const port = 3001;
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("This app is online.");
 });
 
-app.post("/hash", (req, res) => {
-  console.log("Got body:");
-  console.log(req.body);
+app.get("/hash", (req, res) => {
+  crypto.randomBytes(32, function (err, buffer) {
+    if (err) {
+      console.error(err);
+      res.error(err);
+    }
 
-  res.send("Success.");
+    var token = buffer.toString("hex");
+    res.json({ hash: "0x" + token });
+  });
 });
 
 app.listen(port, () => {
