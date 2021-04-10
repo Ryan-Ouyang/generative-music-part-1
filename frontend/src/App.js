@@ -7,7 +7,7 @@ function App() {
 
   const getHash = async () => {
     const fetchData = async () => {
-      return await fetch("http://localhost:3001/hash");
+      return await fetch(`${process.env.REACT_APP_BACKEND_URL}/hash`);
     };
 
     const response = await fetchData();
